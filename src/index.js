@@ -24,12 +24,25 @@ console.log(contentToWrite);
 // Promises-based version of node:fs
 const fs = require("node:fs/promises");
 
-console.log("Before the promise");
+async function writeEnvFile() {
+    console.log("Before the await");
+    try {
+        let result = await fs.writeFile("./folder/.env", contentToWrite);
+        console.log(result);
+    } catch(error) {
+        console.log("Error occured writing the file: ", error);
+    }
 
-fs.writeFile(".env", contentToWrite).then(() => {
-    console.log("After the file has been written");
-}).then(() => {
-    console.log("Some other operation that had to wait for file writing to be done");
+    console.log("After the await");
+}
+writeEnvFile()
+
+// console.log("Before the promise");
+
+// fs.writeFile(".env", contentToWrite).then(() => {
+//     console.log("After the file has been written");
+// }).then(() => {
+//     console.log("Some other operation that had to wait for file writing to be done");
 
     // fs.writeFile(".someOtherFile", contentToWrite).then(() => {
     //     console.log("After the file has been written in the 2nd block");
@@ -42,13 +55,13 @@ fs.writeFile(".env", contentToWrite).then(() => {
     // }).catch((error) => {
     //     console.log("Error occured in the 2nd promise chain", error);
     // });
-}).catch((error) => {
-    console.log("This error occured: ", error);
-}).finally(() => {
-    console.log("All file writing is done");
-});
+// }).catch((error) => {
+//     console.log("This error occured: ", error);
+// }).finally(() => {
+//     console.log("All file writing is done");
+// });
 
-console.log("After the promise");
+// console.log("After the promise");
 
 // const fs = require("node:fs");
 
